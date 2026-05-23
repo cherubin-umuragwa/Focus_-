@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus ++ - Login & Register</title>
+    <link rel="stylesheet" href="css/auth-style.css">
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png">
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+    <div class="auth-theme-toggle">
+        <span class="theme-icon light-icon" title="Light mode">☀️</span>
+        <label class="toggle-switch">
+            <span class="sr-only">Toggle dark mode</span>
+            <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode">
+            <span class="toggle-slider"></span>
+        </label>
+        <span class="theme-icon dark-icon" title="Dark mode">🌙</span>
+    </div>
+
+    <!-- Auth Wrapper -->
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <!-- Header -->
+            <div class="auth-header">
+                <div class="auth-logo">✨</div>
+                <h1>Focus ++</h1>
+                <p id="header-subtitle">Sign in to your account</p>
+            </div>
+
+            <!-- Auth Form Container -->
+            <div class="auth-form-container">
+                <!-- Success Message -->
+                <div id="success-message" class="success-message" style="display: none;"></div>
+
+                <!-- Forms Container -->
+                <div id="forms-container">
+                    <!-- LOGIN FORM -->
+                    <form id="login-form" class="auth-form">
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" placeholder="your@email.com" required>
+                            <div class="error-message" id="login-email-error"></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                            <div class="error-message" id="login-password-error"></div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="auth-btn" id="login-btn">
+                            <span class="loading-spinner"></span>
+                            Sign In
+                        </button>
+                    </form>
+
+                    <!-- SIGNUP FORM (Hidden by default) -->
+                    <form id="signup-form" class="auth-form" style="display: none;">
+                        <!-- Full Name -->
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" placeholder="John Doe" required>
+                            <div class="error-message" id="signup-name-error"></div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" placeholder="your@email.com" required>
+                            <div class="error-message" id="signup-email-error"></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Minimum 8 characters" required>
+                            <div class="password-strength" id="password-strength">
+                                <div class="strength-bar"><div class="strength-bar-fill"></div></div>
+                                <div class="strength-bar"><div class="strength-bar-fill"></div></div>
+                                <div class="strength-bar"><div class="strength-bar-fill"></div></div>
+                            </div>
+                            <div class="strength-text" id="strength-text"></div>
+                            <div class="error-message" id="signup-password-error"></div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-group">
+                            <label for="signup-confirm-password">Confirm Password</label>
+                            <input type="password" id="signup-confirm-password"
+                                placeholder="Re-enter your password" required>
+                            <div class="error-message" id="signup-confirm-error"></div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="auth-btn" id="signup-btn">
+                            <span class="loading-spinner"></span>
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Toggle Form -->
+                <div class="form-toggle">
+                    <p>
+                        <span id="toggle-text">Don't have an account?</span>
+                        <span class="toggle-link" id="toggle-form-btn">Sign up</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script>
+        // Theme toggle functionality for auth page
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const lightIcon = document.querySelector('.light-icon');
+            const darkIcon = document.querySelector('.dark-icon');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            themeToggle.checked = currentTheme === 'dark';
+            updateActiveIcon(currentTheme);
+
+            themeToggle.addEventListener('change', () => {
+                const newTheme = themeToggle.checked ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateActiveIcon(newTheme);
+            });
+
+            lightIcon.addEventListener('click', () => {
+                if (themeToggle.checked) {
+                    themeToggle.checked = false;
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    updateActiveIcon('light');
+                }
+            });
+
+            darkIcon.addEventListener('click', () => {
+                if (!themeToggle.checked) {
+                    themeToggle.checked = true;
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    updateActiveIcon('dark');
+                }
+            });
+
+            function updateActiveIcon(theme) {
+                if (theme === 'dark') {
+                    darkIcon.style.opacity = '1';
+                    lightIcon.style.opacity = '0.5';
+                } else {
+                    lightIcon.style.opacity = '1';
+                    darkIcon.style.opacity = '0.5';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
